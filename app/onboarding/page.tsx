@@ -1,9 +1,8 @@
-// src/app/onboarding/page.tsx
-import { redirect } from "next/navigation";
 import { syncUser } from "@/app/actions/user";
+import OnboardingForm from "@/components/onboarding/OnboardingForm";
 
 export default async function OnboardingPage() {
   await syncUser();
 
-  redirect("/dashboard");
+  return <OnboardingForm />;
 }

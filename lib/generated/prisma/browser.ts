@@ -33,12 +33,37 @@ export type Module = Prisma.ModuleModel
  */
 export type Lesson = Prisma.LessonModel
 /**
- * Model Enrollment
+ * Model LessonProgress
  * 
  */
-export type Enrollment = Prisma.EnrollmentModel
+export type LessonProgress = Prisma.LessonProgressModel
 /**
  * Model Course
  * 
  */
 export type Course = Prisma.CourseModel
+/**
+ * Model Enrollment
+ * 
+ */
+export type Enrollment = Prisma.EnrollmentModel
+/**
+ * Model Quiz
+ * 
+ */
+export type Quiz = Prisma.QuizModel
+/**
+ * Model Question
+ * 
+ */
+export type Question = Prisma.QuestionModel
+/**
+ * Model Answer
+ * 
+ */
+export type Answer = Prisma.AnswerModel
+/**
+ * Model Resource
+ * 
+ */
+export type Resource = Prisma.ResourceModel

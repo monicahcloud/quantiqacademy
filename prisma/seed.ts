@@ -7,6 +7,14 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
 const courses = [
   {
     title: "BJC Mathematics Prep",
@@ -195,7 +203,35 @@ async function main() {
             lessons: {
               create: module.lessons.map((lesson, lessonIndex) => ({
                 title: lesson,
+                slug: `${course.slug}-${slugify(lesson)}`,
+
                 order: lessonIndex + 1,
+
+                summary: `Introduction to ${lesson}.`,
+
+                content: `
+# ${lesson}
+
+Welcome to this lesson.
+
+## Learning Objectives
+
+- Understand the key concepts
+- Practice BJC-style questions
+- Build confidence through examples
+
+## Lesson Notes
+
+Lesson content will be added here.
+
+## Key Takeaways
+
+Review your notes before moving to the next lesson.
+`,
+
+                duration: 15,
+                xpReward: 10,
+
                 isPublished: true,
                 isPreview: moduleIndex === 0 && lessonIndex < 2,
               })),

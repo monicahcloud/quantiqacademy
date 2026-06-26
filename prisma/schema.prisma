@@ -43,50 +43,56 @@ enum UserRole {
 
 
 model Module {
-  id       String @id @default(cuid())
-  title    String
-  order    Int
-  courseId String
+  id              String @id @default(cuid())
+  title           String
+  order           Int
+  courseId        String
+  assessmentTitle String?
 
   course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessons  Lesson[]
-assessmentTitle String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 
 model Lesson {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   title       String
+  slug        String?  @unique
   order       Int
   videoUrl    String?
-  isPreview   Boolean @default(false)
-  isPublished Boolean @default(false)
-  moduleId    String
-  content       String?   @db.Text
-summary       String?
-duration      Int?
-isLocked      Boolean @default(true)
-xpReward      Int @default(10)
+  summary     String?
+  content     String?  @db.Text
+  duration    Int?
+  xpReward    Int      @default(10)
+  isPreview   Boolean  @default(false)
+  isPublished Boolean  @default(false)
+  quizzes   Quiz[]
+  resources Resource[]
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
-  module      Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress LessonProgress[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Enrollment {
-  id        String   @id @default(cuid())
-  userId    String
-  courseId  String
-  progress  Int      @default(0)
+model LessonProgress {
+  id           String   @id @default(cuid())
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollmentId String
+  lessonId     String
 
-  createdAt DateTime @default(now())
+  completed    Boolean  @default(false)
+  completedAt  DateTime?
 
-  @@unique([userId, courseId])
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson      Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, lessonId])
 }
 
 model Course {
@@ -129,4 +135,80 @@ enum CourseLevel {
   INTERMEDIATE
   ADVANCED
   EXAM_READY
+}
+
+
+model Enrollment {
+  id       String @id @default(cuid())
+  userId   String
+  courseId String
+  progress Int    @default(0)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessonProgress LessonProgress[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+}
+model Quiz {
+  id        String @id @default(cuid())
+  title     String
+  lessonId  String?
+
+  lesson    Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  id        String @id @default(cuid())
+  prompt    String @db.Text
+  type      QuestionType @default(MULTIPLE_CHOICE)
+  quizId    String
+
+  quiz      Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  answers   Answer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Answer {
+  id          String @id @default(cuid())
+  text        String @db.Text
+  isCorrect   Boolean @default(false)
+  explanation String? @db.Text
+  questionId  String
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
+}
+
+model Resource {
+  id        String @id @default(cuid())
+  title     String
+  url       String
+  type      ResourceType @default(PDF)
+  lessonId  String?
+
+  lesson    Lesson? @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+enum ResourceType {
+  PDF
+  WORKSHEET
+  VIDEO
+  LINK
 }

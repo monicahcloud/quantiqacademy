@@ -54,8 +54,13 @@ export const ModelName = {
   User: 'User',
   Module: 'Module',
   Lesson: 'Lesson',
+  LessonProgress: 'LessonProgress',
+  Course: 'Course',
   Enrollment: 'Enrollment',
-  Course: 'Course'
+  Quiz: 'Quiz',
+  Question: 'Question',
+  Answer: 'Answer',
+  Resource: 'Resource'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -112,16 +117,16 @@ export type ModuleScalarFieldEnum = (typeof ModuleScalarFieldEnum)[keyof typeof 
 export const LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   order: 'order',
   videoUrl: 'videoUrl',
+  summary: 'summary',
+  content: 'content',
+  duration: 'duration',
+  xpReward: 'xpReward',
   isPreview: 'isPreview',
   isPublished: 'isPublished',
   moduleId: 'moduleId',
-  content: 'content',
-  summary: 'summary',
-  duration: 'duration',
-  isLocked: 'isLocked',
-  xpReward: 'xpReward',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -129,15 +134,15 @@ export const LessonScalarFieldEnum = {
 export type LessonScalarFieldEnum = (typeof LessonScalarFieldEnum)[keyof typeof LessonScalarFieldEnum]
 
 
-export const EnrollmentScalarFieldEnum = {
+export const LessonProgressScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  courseId: 'courseId',
-  progress: 'progress',
-  createdAt: 'createdAt'
+  enrollmentId: 'enrollmentId',
+  lessonId: 'lessonId',
+  completed: 'completed',
+  completedAt: 'completedAt'
 } as const
 
-export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+export type LessonProgressScalarFieldEnum = (typeof LessonProgressScalarFieldEnum)[keyof typeof LessonProgressScalarFieldEnum]
 
 
 export const CourseScalarFieldEnum = {
@@ -160,6 +165,63 @@ export const CourseScalarFieldEnum = {
 } as const
 
 export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
+
+
+export const EnrollmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  courseId: 'courseId',
+  progress: 'progress',
+  createdAt: 'createdAt'
+} as const
+
+export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const QuizScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuizScalarFieldEnum = (typeof QuizScalarFieldEnum)[keyof typeof QuizScalarFieldEnum]
+
+
+export const QuestionScalarFieldEnum = {
+  id: 'id',
+  prompt: 'prompt',
+  type: 'type',
+  quizId: 'quizId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type QuestionScalarFieldEnum = (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum]
+
+
+export const AnswerScalarFieldEnum = {
+  id: 'id',
+  text: 'text',
+  isCorrect: 'isCorrect',
+  explanation: 'explanation',
+  questionId: 'questionId'
+} as const
+
+export type AnswerScalarFieldEnum = (typeof AnswerScalarFieldEnum)[keyof typeof AnswerScalarFieldEnum]
+
+
+export const ResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  url: 'url',
+  type: 'type',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt'
+} as const
+
+export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
 
 
 export const SortOrder = {

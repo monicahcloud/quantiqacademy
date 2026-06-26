@@ -27,3 +27,22 @@ export const CourseLevel = {
 } as const
 
 export type CourseLevel = (typeof CourseLevel)[keyof typeof CourseLevel]
+
+
+export const QuestionType = {
+  MULTIPLE_CHOICE: 'MULTIPLE_CHOICE',
+  TRUE_FALSE: 'TRUE_FALSE',
+  SHORT_ANSWER: 'SHORT_ANSWER'
+} as const
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+
+export const ResourceType = {
+  PDF: 'PDF',
+  WORKSHEET: 'WORKSHEET',
+  VIDEO: 'VIDEO',
+  LINK: 'LINK'
+} as const
+
+export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]

@@ -1,15 +1,17 @@
-// src/app/actions/user.ts
 "use server";
 
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 export async function syncUser() {
-  const user = await currentUser();
+  const { userId } = await auth();
 
-  if (!user) {
+  if (!userId) {
     throw new Error("Unauthorized");
   }
+
+  const client = await clerkClient();
+  const user = await client.users.getUser(userId);
 
   const email = user.emailAddresses[0]?.emailAddress;
 
@@ -17,7 +19,7 @@ export async function syncUser() {
     throw new Error("No email found");
   }
 
-  const dbUser = await prisma.user.upsert({
+  return await prisma.user.upsert({
     where: { clerkId: user.id },
     update: {
       email,
@@ -31,6 +33,4 @@ export async function syncUser() {
       lastName: user.lastName,
     },
   });
-
-  return dbUser;
 }

@@ -5,12 +5,13 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
+
 model User {
   id        String   @id @default(cuid())
   clerkId  String   @unique
@@ -18,6 +19,15 @@ model User {
   firstName String?
   lastName  String?
   role      UserRole @default(STUDENT)
+
+  studentType String?
+  gradeLevel String?
+  schoolName String?
+  examGoals String[]
+  learningGoals String[]
+  preferredStudyTime String?
+  targetExamDate DateTime?
+  onboardingComplete Boolean @default(false)
 
   enrollments Enrollment[]
   createdAt DateTime @default(now())

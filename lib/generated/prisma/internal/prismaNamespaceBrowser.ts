@@ -52,10 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Course: 'Course',
   Module: 'Module',
   Lesson: 'Lesson',
-  Enrollment: 'Enrollment'
+  Enrollment: 'Enrollment',
+  Course: 'Course'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -96,26 +96,12 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const CourseScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  slug: 'slug',
-  description: 'description',
-  category: 'category',
-  image: 'image',
-  isPublished: 'isPublished',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
-
-
 export const ModuleScalarFieldEnum = {
   id: 'id',
   title: 'title',
   order: 'order',
   courseId: 'courseId',
+  assessmentTitle: 'assessmentTitle',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -131,6 +117,11 @@ export const LessonScalarFieldEnum = {
   isPreview: 'isPreview',
   isPublished: 'isPublished',
   moduleId: 'moduleId',
+  content: 'content',
+  summary: 'summary',
+  duration: 'duration',
+  isLocked: 'isLocked',
+  xpReward: 'xpReward',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -147,6 +138,28 @@ export const EnrollmentScalarFieldEnum = {
 } as const
 
 export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
+
+
+export const CourseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  exam: 'exam',
+  subject: 'subject',
+  level: 'level',
+  duration: 'duration',
+  image: 'image',
+  thumbnail: 'thumbnail',
+  featured: 'featured',
+  rating: 'rating',
+  lessonCount: 'lessonCount',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CourseScalarFieldEnum = (typeof CourseScalarFieldEnum)[keyof typeof CourseScalarFieldEnum]
 
 
 export const SortOrder = {

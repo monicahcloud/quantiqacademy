@@ -41,21 +41,6 @@ enum UserRole {
   ADMIN
 }
 
-model Course {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  description String?
-  category    String
-  image       String?
-  isPublished Boolean  @default(false)
-
-  modules     Module[]
-  enrollments Enrollment[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model Module {
   id       String @id @default(cuid())
@@ -65,7 +50,7 @@ model Module {
 
   course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
   lessons  Lesson[]
-
+assessmentTitle String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -78,6 +63,11 @@ model Lesson {
   isPreview   Boolean @default(false)
   isPublished Boolean @default(false)
   moduleId    String
+  content       String?   @db.Text
+summary       String?
+duration      Int?
+isLocked      Boolean @default(true)
+xpReward      Int @default(10)
 
   module      Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
@@ -97,4 +87,46 @@ model Enrollment {
   createdAt DateTime @default(now())
 
   @@unique([userId, courseId])
+}
+
+model Course {
+  id          String @id @default(cuid())
+
+  title       String
+  slug        String @unique
+
+  description String?
+
+  exam        String
+  subject     String
+
+  level       CourseLevel
+
+  duration    String?
+
+  image       String?
+
+  thumbnail   String?
+
+  featured    Boolean @default(false)
+
+  rating      Float @default(5)
+
+  lessonCount Int @default(0)
+
+  isPublished Boolean @default(false)
+
+  modules Module[]
+
+  enrollments Enrollment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum CourseLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXAM_READY
 }

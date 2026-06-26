@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { ChevronDown, Menu, Search, Bell } from "lucide-react";
-
+import { ChevronDown, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SearchDialog from "../layout/SearchDialog";
+import { Show, UserButton } from "@clerk/nextjs";
 
 const testPrep = [
   {
@@ -137,7 +137,11 @@ export default function Navbar() {
               ))}
             </div>
           </div>
-
+          <Link
+            href="/resources"
+            className="text-sm font-bold uppercase tracking-[0.18em] text-white/80 transition hover:text-cyan-400">
+            Resources
+          </Link>
           <Link
             href="/pricing"
             className="text-sm font-bold uppercase tracking-[0.18em] text-white/80 transition hover:text-cyan-400">
@@ -156,17 +160,29 @@ export default function Navbar() {
         <div className="hidden items-center gap-4 lg:flex">
           <SearchDialog />
 
-          <Link
-            href="/login"
-            className="rounded-full border border-white/10 px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
-            Login
-          </Link>
+          <Show when="signed-out">
+            <Link
+              href="/login"
+              className="rounded-full border border-white/10 px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+              Login
+            </Link>
 
-          <Link
-            href="/signup"
-            className="rounded-full bg-[#FDBF2D] px-8 py-3 text-sm font-bold text-[#04142f] transition hover:scale-105">
-            Get Started
-          </Link>
+            <Link
+              href="/signup"
+              className="rounded-full bg-[#FDBF2D] px-8 py-3 text-sm font-bold text-[#04142f] transition hover:scale-105">
+              Get Started
+            </Link>
+          </Show>
+
+          <Show when="signed-in">
+            <Link
+              href="/dashboard"
+              className="rounded-full border border-white/10 px-7 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
+              Dashboard
+            </Link>
+
+            <UserButton />
+          </Show>
         </div>
 
         {/* Mobile */}

@@ -59,6 +59,10 @@ export const navLinks = [
     ],
   },
   {
+    label: "Resources",
+    href: "/resources",
+  },
+  {
     label: "Pricing",
     href: "/pricing",
   },

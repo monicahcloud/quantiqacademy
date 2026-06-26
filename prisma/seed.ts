@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { CourseLevel, PrismaClient } from "@/lib/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
@@ -15,6 +16,89 @@ function slugify(text: string) {
     .trim()
     .replace(/\s+/g, "-");
 }
+
+type SeedLesson =
+  | string
+  | {
+      title: string;
+      summary?: string;
+      content?: string;
+      duration?: number;
+      xpReward?: number;
+      quiz?: {
+        title: string;
+        passingScore?: number;
+        questions: {
+          prompt: string;
+          answers: {
+            text: string;
+            correct: boolean;
+            explanation?: string;
+          }[];
+        }[];
+      };
+    };
+
+function normalizeLesson(lesson: SeedLesson) {
+  if (typeof lesson === "string") {
+    return {
+      title: lesson,
+      summary: `Introduction to ${lesson}.`,
+      content: `
+# ${lesson}
+
+Welcome to this lesson.
+
+## Learning Objectives
+
+- Understand the key concepts
+- Practice BJC-style questions
+- Build confidence through examples
+
+## Lesson Notes
+
+Lesson content will be added here.
+
+## Key Takeaways
+
+Review your notes before moving to the next lesson.
+`,
+      duration: 15,
+      xpReward: 10,
+      quiz: null,
+    };
+  }
+
+  return {
+    title: lesson.title,
+    summary: lesson.summary ?? `Introduction to ${lesson.title}.`,
+    content:
+      lesson.content ??
+      `
+# ${lesson.title}
+
+Welcome to this lesson.
+
+## Learning Objectives
+
+- Understand the key concepts
+- Practice BJC-style questions
+- Build confidence through examples
+
+## Lesson Notes
+
+Lesson content will be added here.
+
+## Key Takeaways
+
+Review your notes before moving to the next lesson.
+`,
+    duration: lesson.duration ?? 15,
+    xpReward: lesson.xpReward ?? 10,
+    quiz: lesson.quiz ?? null,
+  };
+}
+
 const courses = [
   {
     title: "BJC Mathematics Prep",
@@ -29,13 +113,114 @@ const courses = [
     rating: 5,
     lessonCount: 42,
     featured: true,
-
     modules: [
       {
         title: "Course Orientation & Diagnostic",
         assessmentTitle: "Diagnostic Assessment",
         lessons: [
-          "Welcome to BJC Mathematics",
+          {
+            title: "Welcome to BJC Mathematics",
+            summary:
+              "Get familiar with the BJC Mathematics course structure, expectations, and how to use QuantIQ to study effectively.",
+            duration: 12,
+            xpReward: 15,
+            content: `
+# Welcome to BJC Mathematics
+
+Welcome to QuantIQ Academy's BJC Mathematics Prep course.
+
+This course is designed to help you build confidence, strengthen core skills, and prepare for exam-style questions.
+
+## What You Will Learn
+
+- How the BJC Mathematics course is organized
+- How to study with modules, lessons, and quizzes
+- How to track your progress
+- How to use practice questions to prepare for exams
+
+## How to Use This Course
+
+Start with the orientation lessons, then move through each module in order.
+
+You will complete:
+
+- Guided lessons
+- Quick checks
+- Module checkpoints
+- Paper 1 practice
+- Paper 2 practice
+- Final review
+
+## Study Tip
+
+Do not rush. Mathematics improves with practice, correction, and repetition.
+`,
+            quiz: {
+              title: "Welcome Quiz",
+              passingScore: 70,
+              questions: [
+                {
+                  prompt:
+                    "What is the best way to use this BJC Mathematics course?",
+                  answers: [
+                    {
+                      text: "Skip straight to the final exam practice.",
+                      correct: false,
+                      explanation:
+                        "Skipping the lessons can leave gaps in your understanding.",
+                    },
+                    {
+                      text: "Move through the lessons in order and complete the practice activities.",
+                      correct: true,
+                      explanation:
+                        "Following the course sequence helps build understanding step by step.",
+                    },
+                    {
+                      text: "Only watch videos without practicing.",
+                      correct: false,
+                      explanation:
+                        "Math requires practice, not just watching or reading.",
+                    },
+                    {
+                      text: "Only study topics you already know.",
+                      correct: false,
+                      explanation:
+                        "The goal is to strengthen both strong and weak areas.",
+                    },
+                  ],
+                },
+                {
+                  prompt: "Why are quick checks useful?",
+                  answers: [
+                    {
+                      text: "They help you test whether you understood the lesson.",
+                      correct: true,
+                      explanation:
+                        "Quick checks help confirm understanding before moving on.",
+                    },
+                    {
+                      text: "They replace all studying.",
+                      correct: false,
+                      explanation:
+                        "Quick checks support studying, but they do not replace practice.",
+                    },
+                    {
+                      text: "They are only for grading teachers.",
+                      correct: false,
+                      explanation:
+                        "They are mainly for helping students identify strengths and weaknesses.",
+                    },
+                    {
+                      text: "They should be ignored.",
+                      correct: false,
+                      explanation:
+                        "Ignoring them removes an important feedback step.",
+                    },
+                  ],
+                },
+              ],
+            },
+          },
           "Understanding the BJC Examination",
           "Diagnostic Assessment",
         ],
@@ -112,7 +297,6 @@ const courses = [
       },
     ],
   },
-
   {
     title: "BGCSE Mathematics Prep",
     slug: "bgcse-mathematics-prep",
@@ -127,7 +311,6 @@ const courses = [
     featured: false,
     modules: [],
   },
-
   {
     title: "SAT Complete Prep",
     slug: "sat-complete-prep",
@@ -142,7 +325,6 @@ const courses = [
     featured: false,
     modules: [],
   },
-
   {
     title: "ACT Complete Prep",
     slug: "act-complete-prep",
@@ -162,10 +344,7 @@ const courses = [
 async function main() {
   for (const course of courses) {
     await prisma.course.upsert({
-      where: {
-        slug: course.slug,
-      },
-
+      where: { slug: course.slug },
       update: {
         title: course.title,
         description: course.description,
@@ -179,7 +358,6 @@ async function main() {
         featured: course.featured,
         isPublished: true,
       },
-
       create: {
         title: course.title,
         slug: course.slug,
@@ -193,48 +371,50 @@ async function main() {
         lessonCount: course.lessonCount,
         featured: course.featured,
         isPublished: true,
-
         modules: {
           create: course.modules.map((module, moduleIndex) => ({
             title: module.title,
             order: moduleIndex + 1,
             assessmentTitle: module.assessmentTitle,
-
             lessons: {
-              create: module.lessons.map((lesson, lessonIndex) => ({
-                title: lesson,
-                slug: `${course.slug}-${slugify(lesson)}`,
+              create: module.lessons.map((rawLesson, lessonIndex) => {
+                const lesson = normalizeLesson(rawLesson);
 
-                order: lessonIndex + 1,
-
-                summary: `Introduction to ${lesson}.`,
-
-                content: `
-# ${lesson}
-
-Welcome to this lesson.
-
-## Learning Objectives
-
-- Understand the key concepts
-- Practice BJC-style questions
-- Build confidence through examples
-
-## Lesson Notes
-
-Lesson content will be added here.
-
-## Key Takeaways
-
-Review your notes before moving to the next lesson.
-`,
-
-                duration: 15,
-                xpReward: 10,
-
-                isPublished: true,
-                isPreview: moduleIndex === 0 && lessonIndex < 2,
-              })),
+                return {
+                  title: lesson.title,
+                  slug: `${course.slug}-${slugify(lesson.title)}`,
+                  order: lessonIndex + 1,
+                  summary: lesson.summary,
+                  content: lesson.content,
+                  duration: lesson.duration,
+                  xpReward: lesson.xpReward,
+                  isPublished: true,
+                  isPreview: moduleIndex === 0 && lessonIndex < 2,
+                  quizzes: lesson.quiz
+                    ? {
+                        create: {
+                          title: lesson.quiz.title,
+                          passingScore: lesson.quiz.passingScore ?? 70,
+                          questions: {
+                            create: lesson.quiz.questions.map(
+                              (question, questionIndex) => ({
+                                prompt: question.prompt,
+                                order: questionIndex + 1,
+                                answers: {
+                                  create: question.answers.map((answer) => ({
+                                    text: answer.text,
+                                    isCorrect: answer.correct,
+                                    explanation: answer.explanation,
+                                  })),
+                                },
+                              }),
+                            ),
+                          },
+                        },
+                      }
+                    : undefined,
+                };
+              }),
             },
           })),
         },

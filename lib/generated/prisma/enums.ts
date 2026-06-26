@@ -46,3 +46,12 @@ export const ResourceType = {
 } as const
 
 export type ResourceType = (typeof ResourceType)[keyof typeof ResourceType]
+
+
+export const QuestionDifficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD'
+} as const
+
+export type QuestionDifficulty = (typeof QuestionDifficulty)[keyof typeof QuestionDifficulty]

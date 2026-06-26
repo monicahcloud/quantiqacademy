@@ -43,6 +43,7 @@ export default async function LessonPlayerPage({
       quizzes: {
         include: {
           questions: {
+            orderBy: { order: "asc" },
             include: {
               answers: true,
             },

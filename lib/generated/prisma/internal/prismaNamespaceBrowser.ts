@@ -57,10 +57,12 @@ export const ModelName = {
   LessonProgress: 'LessonProgress',
   Course: 'Course',
   Enrollment: 'Enrollment',
+  Resource: 'Resource',
   Quiz: 'Quiz',
   Question: 'Question',
   Answer: 'Answer',
-  Resource: 'Resource'
+  QuizAttempt: 'QuizAttempt',
+  QuestionAttempt: 'QuestionAttempt'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,6 +88,8 @@ export const UserScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   role: 'role',
+  xp: 'xp',
+  level: 'level',
   studentType: 'studentType',
   gradeLevel: 'gradeLevel',
   schoolName: 'schoolName',
@@ -178,9 +182,26 @@ export const EnrollmentScalarFieldEnum = {
 export type EnrollmentScalarFieldEnum = (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum]
 
 
+export const ResourceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  url: 'url',
+  type: 'type',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt'
+} as const
+
+export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+
+
 export const QuizScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  description: 'description',
+  passingScore: 'passingScore',
+  timeLimitMinutes: 'timeLimitMinutes',
+  shuffleQuestions: 'shuffleQuestions',
+  shuffleAnswers: 'shuffleAnswers',
   lessonId: 'lessonId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -193,6 +214,9 @@ export const QuestionScalarFieldEnum = {
   id: 'id',
   prompt: 'prompt',
   type: 'type',
+  difficulty: 'difficulty',
+  points: 'points',
+  order: 'order',
   quizId: 'quizId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -206,22 +230,41 @@ export const AnswerScalarFieldEnum = {
   text: 'text',
   isCorrect: 'isCorrect',
   explanation: 'explanation',
-  questionId: 'questionId'
+  questionId: 'questionId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type AnswerScalarFieldEnum = (typeof AnswerScalarFieldEnum)[keyof typeof AnswerScalarFieldEnum]
 
 
-export const ResourceScalarFieldEnum = {
+export const QuizAttemptScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  url: 'url',
-  type: 'type',
-  lessonId: 'lessonId',
+  userId: 'userId',
+  quizId: 'quizId',
+  enrollmentId: 'enrollmentId',
+  score: 'score',
+  totalPoints: 'totalPoints',
+  percentage: 'percentage',
+  passed: 'passed',
+  timeSpentSec: 'timeSpentSec',
   createdAt: 'createdAt'
 } as const
 
-export type ResourceScalarFieldEnum = (typeof ResourceScalarFieldEnum)[keyof typeof ResourceScalarFieldEnum]
+export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
+
+
+export const QuestionAttemptScalarFieldEnum = {
+  id: 'id',
+  quizAttemptId: 'quizAttemptId',
+  questionId: 'questionId',
+  selectedAnswerId: 'selectedAnswerId',
+  isCorrect: 'isCorrect',
+  pointsEarned: 'pointsEarned',
+  createdAt: 'createdAt'
+} as const
+
+export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
 
 
 export const SortOrder = {

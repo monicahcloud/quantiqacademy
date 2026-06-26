@@ -666,22 +666,6 @@ export type LessonUpdateOneRequiredWithoutProgressNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutProgressInput, Prisma.LessonUpdateWithoutProgressInput>, Prisma.LessonUncheckedUpdateWithoutProgressInput>
 }
 
-export type LessonCreateNestedOneWithoutQuizzesInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutQuizzesInput
-  connect?: Prisma.LessonWhereUniqueInput
-}
-
-export type LessonUpdateOneWithoutQuizzesNestedInput = {
-  create?: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
-  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutQuizzesInput
-  upsert?: Prisma.LessonUpsertWithoutQuizzesInput
-  disconnect?: Prisma.LessonWhereInput | boolean
-  delete?: Prisma.LessonWhereInput | boolean
-  connect?: Prisma.LessonWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutQuizzesInput, Prisma.LessonUpdateWithoutQuizzesInput>, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
-}
-
 export type LessonCreateNestedOneWithoutResourcesInput = {
   create?: Prisma.XOR<Prisma.LessonCreateWithoutResourcesInput, Prisma.LessonUncheckedCreateWithoutResourcesInput>
   connectOrCreate?: Prisma.LessonCreateOrConnectWithoutResourcesInput
@@ -696,6 +680,20 @@ export type LessonUpdateOneWithoutResourcesNestedInput = {
   delete?: Prisma.LessonWhereInput | boolean
   connect?: Prisma.LessonWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutResourcesInput, Prisma.LessonUpdateWithoutResourcesInput>, Prisma.LessonUncheckedUpdateWithoutResourcesInput>
+}
+
+export type LessonCreateNestedOneWithoutQuizzesInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutQuizzesInput
+  connect?: Prisma.LessonWhereUniqueInput
+}
+
+export type LessonUpdateOneRequiredWithoutQuizzesNestedInput = {
+  create?: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
+  connectOrCreate?: Prisma.LessonCreateOrConnectWithoutQuizzesInput
+  upsert?: Prisma.LessonUpsertWithoutQuizzesInput
+  connect?: Prisma.LessonWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LessonUpdateToOneWithWhereWithoutQuizzesInput, Prisma.LessonUpdateWithoutQuizzesInput>, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
 }
 
 export type LessonCreateWithoutModuleInput = {
@@ -874,98 +872,6 @@ export type LessonUncheckedUpdateWithoutProgressInput = {
   resources?: Prisma.ResourceUncheckedUpdateManyWithoutLessonNestedInput
 }
 
-export type LessonCreateWithoutQuizzesInput = {
-  id?: string
-  title: string
-  slug?: string | null
-  order: number
-  videoUrl?: string | null
-  summary?: string | null
-  content?: string | null
-  duration?: number | null
-  xpReward?: number
-  isPreview?: boolean
-  isPublished?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  resources?: Prisma.ResourceCreateNestedManyWithoutLessonInput
-  module: Prisma.ModuleCreateNestedOneWithoutLessonsInput
-  progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonInput
-}
-
-export type LessonUncheckedCreateWithoutQuizzesInput = {
-  id?: string
-  title: string
-  slug?: string | null
-  order: number
-  videoUrl?: string | null
-  summary?: string | null
-  content?: string | null
-  duration?: number | null
-  xpReward?: number
-  isPreview?: boolean
-  isPublished?: boolean
-  moduleId: string
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutLessonInput
-  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonInput
-}
-
-export type LessonCreateOrConnectWithoutQuizzesInput = {
-  where: Prisma.LessonWhereUniqueInput
-  create: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
-}
-
-export type LessonUpsertWithoutQuizzesInput = {
-  update: Prisma.XOR<Prisma.LessonUpdateWithoutQuizzesInput, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
-  create: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
-  where?: Prisma.LessonWhereInput
-}
-
-export type LessonUpdateToOneWithWhereWithoutQuizzesInput = {
-  where?: Prisma.LessonWhereInput
-  data: Prisma.XOR<Prisma.LessonUpdateWithoutQuizzesInput, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
-}
-
-export type LessonUpdateWithoutQuizzesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order?: Prisma.IntFieldUpdateOperationsInput | number
-  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreview?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resources?: Prisma.ResourceUpdateManyWithoutLessonNestedInput
-  module?: Prisma.ModuleUpdateOneRequiredWithoutLessonsNestedInput
-  progress?: Prisma.LessonProgressUpdateManyWithoutLessonNestedInput
-}
-
-export type LessonUncheckedUpdateWithoutQuizzesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  order?: Prisma.IntFieldUpdateOperationsInput | number
-  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
-  isPreview?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resources?: Prisma.ResourceUncheckedUpdateManyWithoutLessonNestedInput
-  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
-}
-
 export type LessonCreateWithoutResourcesInput = {
   id?: string
   title: string
@@ -1055,6 +961,98 @@ export type LessonUncheckedUpdateWithoutResourcesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quizzes?: Prisma.QuizUncheckedUpdateManyWithoutLessonNestedInput
+  progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonCreateWithoutQuizzesInput = {
+  id?: string
+  title: string
+  slug?: string | null
+  order: number
+  videoUrl?: string | null
+  summary?: string | null
+  content?: string | null
+  duration?: number | null
+  xpReward?: number
+  isPreview?: boolean
+  isPublished?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceCreateNestedManyWithoutLessonInput
+  module: Prisma.ModuleCreateNestedOneWithoutLessonsInput
+  progress?: Prisma.LessonProgressCreateNestedManyWithoutLessonInput
+}
+
+export type LessonUncheckedCreateWithoutQuizzesInput = {
+  id?: string
+  title: string
+  slug?: string | null
+  order: number
+  videoUrl?: string | null
+  summary?: string | null
+  content?: string | null
+  duration?: number | null
+  xpReward?: number
+  isPreview?: boolean
+  isPublished?: boolean
+  moduleId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resources?: Prisma.ResourceUncheckedCreateNestedManyWithoutLessonInput
+  progress?: Prisma.LessonProgressUncheckedCreateNestedManyWithoutLessonInput
+}
+
+export type LessonCreateOrConnectWithoutQuizzesInput = {
+  where: Prisma.LessonWhereUniqueInput
+  create: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
+}
+
+export type LessonUpsertWithoutQuizzesInput = {
+  update: Prisma.XOR<Prisma.LessonUpdateWithoutQuizzesInput, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
+  create: Prisma.XOR<Prisma.LessonCreateWithoutQuizzesInput, Prisma.LessonUncheckedCreateWithoutQuizzesInput>
+  where?: Prisma.LessonWhereInput
+}
+
+export type LessonUpdateToOneWithWhereWithoutQuizzesInput = {
+  where?: Prisma.LessonWhereInput
+  data: Prisma.XOR<Prisma.LessonUpdateWithoutQuizzesInput, Prisma.LessonUncheckedUpdateWithoutQuizzesInput>
+}
+
+export type LessonUpdateWithoutQuizzesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isPreview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUpdateManyWithoutLessonNestedInput
+  module?: Prisma.ModuleUpdateOneRequiredWithoutLessonsNestedInput
+  progress?: Prisma.LessonProgressUpdateManyWithoutLessonNestedInput
+}
+
+export type LessonUncheckedUpdateWithoutQuizzesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  duration?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  xpReward?: Prisma.IntFieldUpdateOperationsInput | number
+  isPreview?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isPublished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  moduleId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resources?: Prisma.ResourceUncheckedUpdateManyWithoutLessonNestedInput
   progress?: Prisma.LessonProgressUncheckedUpdateManyWithoutLessonNestedInput
 }
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { submitQuiz } from "@/app/actions/quiz";
 
 type Answer = {
   id: string;
@@ -27,6 +28,14 @@ export default function LessonQuiz({ quiz }: { quiz: Quiz | null }) {
     Record<string, string>
   >({});
   const [submitted, setSubmitted] = useState(false);
+  const [result, setResult] = useState<{
+    score: number;
+    totalPoints: number;
+    percentage: number;
+    passed: boolean;
+  } | null>(null);
+
+  const [isPending, startTransition] = useTransition();
 
   if (!quiz || quiz.questions.length === 0) {
     return (
@@ -36,19 +45,36 @@ export default function LessonQuiz({ quiz }: { quiz: Quiz | null }) {
     );
   }
 
-  const score = quiz.questions.reduce((total, question) => {
-    const selectedId = selectedAnswers[question.id];
-    const selected = question.answers.find(
-      (answer) => answer.id === selectedId,
-    );
-    return selected?.isCorrect ? total + 1 : total;
-  }, 0);
+  const activeQuiz = quiz;
+
+  const allAnswered = activeQuiz.questions.every(
+    (question) => selectedAnswers[question.id],
+  );
+
+  function handleSubmit() {
+    if (!allAnswered) return;
+
+    startTransition(async () => {
+      const response = await submitQuiz({
+        quizId: activeQuiz.id,
+        answers: Object.entries(selectedAnswers).map(
+          ([questionId, selectedAnswerId]) => ({
+            questionId,
+            selectedAnswerId,
+          }),
+        ),
+      });
+
+      setResult(response);
+      setSubmitted(true);
+    });
+  }
 
   return (
     <div className="mt-6 space-y-6">
-      <h3 className="text-2xl font-black">{quiz.title}</h3>
+      <h3 className="text-2xl font-black">{activeQuiz.title}</h3>
 
-      {quiz.questions.map((question, index) => {
+      {activeQuiz.questions.map((question, index) => {
         const selectedId = selectedAnswers[question.id];
         const selected = question.answers.find(
           (answer) => answer.id === selectedId,
@@ -70,7 +96,7 @@ export default function LessonQuiz({ quiz }: { quiz: Quiz | null }) {
                   <button
                     key={answer.id}
                     type="button"
-                    disabled={submitted}
+                    disabled={submitted || isPending}
                     onClick={() =>
                       setSelectedAnswers((prev) => ({
                         ...prev,
@@ -107,16 +133,29 @@ export default function LessonQuiz({ quiz }: { quiz: Quiz | null }) {
       {!submitted ? (
         <button
           type="button"
-          onClick={() => setSubmitted(true)}
-          className="rounded-full bg-[#041f3d] px-6 py-3 font-black text-white">
-          Submit Quiz
+          onClick={handleSubmit}
+          disabled={!allAnswered || isPending}
+          className="rounded-full bg-[#041f3d] px-6 py-3 font-black text-white transition hover:bg-[#082b57] disabled:opacity-50">
+          {isPending ? "Submitting..." : "Submit Quiz"}
         </button>
       ) : (
-        <div className="rounded-2xl bg-cyan-50 p-5">
-          <p className="text-xl font-black">
-            Score: {score} / {quiz.questions.length}
-          </p>
-        </div>
+        result && (
+          <div
+            className={`rounded-2xl p-5 ${
+              result.passed ? "bg-green-50" : "bg-red-50"
+            }`}>
+            <p className="text-xl font-black">
+              Score: {result.score} / {result.totalPoints} — {result.percentage}
+              %
+            </p>
+
+            <p className="mt-2 font-bold">
+              {result.passed
+                ? "Passed. Lesson completed."
+                : "Not passed yet. Review the lesson and try again."}
+            </p>
+          </div>
+        )
       )}
     </div>
   );

@@ -48,6 +48,11 @@ export type Course = Prisma.CourseModel
  */
 export type Enrollment = Prisma.EnrollmentModel
 /**
+ * Model Resource
+ * 
+ */
+export type Resource = Prisma.ResourceModel
+/**
  * Model Quiz
  * 
  */
@@ -63,7 +68,12 @@ export type Question = Prisma.QuestionModel
  */
 export type Answer = Prisma.AnswerModel
 /**
- * Model Resource
+ * Model QuizAttempt
  * 
  */
-export type Resource = Prisma.ResourceModel
+export type QuizAttempt = Prisma.QuizAttemptModel
+/**
+ * Model QuestionAttempt
+ * 
+ */
+export type QuestionAttempt = Prisma.QuestionAttemptModel

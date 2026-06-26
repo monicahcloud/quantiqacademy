@@ -20,8 +20,20 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  xp: number | null
+  level: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  xp: number | null
+  level: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -31,6 +43,8 @@ export type UserMinAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   role: $Enums.UserRole | null
+  xp: number | null
+  level: number | null
   studentType: string | null
   gradeLevel: string | null
   schoolName: string | null
@@ -48,6 +62,8 @@ export type UserMaxAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   role: $Enums.UserRole | null
+  xp: number | null
+  level: number | null
   studentType: string | null
   gradeLevel: string | null
   schoolName: string | null
@@ -65,6 +81,8 @@ export type UserCountAggregateOutputType = {
   firstName: number
   lastName: number
   role: number
+  xp: number
+  level: number
   studentType: number
   gradeLevel: number
   schoolName: number
@@ -79,6 +97,16 @@ export type UserCountAggregateOutputType = {
 }
 
 
+export type UserAvgAggregateInputType = {
+  xp?: true
+  level?: true
+}
+
+export type UserSumAggregateInputType = {
+  xp?: true
+  level?: true
+}
+
 export type UserMinAggregateInputType = {
   id?: true
   clerkId?: true
@@ -86,6 +114,8 @@ export type UserMinAggregateInputType = {
   firstName?: true
   lastName?: true
   role?: true
+  xp?: true
+  level?: true
   studentType?: true
   gradeLevel?: true
   schoolName?: true
@@ -103,6 +133,8 @@ export type UserMaxAggregateInputType = {
   firstName?: true
   lastName?: true
   role?: true
+  xp?: true
+  level?: true
   studentType?: true
   gradeLevel?: true
   schoolName?: true
@@ -120,6 +152,8 @@ export type UserCountAggregateInputType = {
   firstName?: true
   lastName?: true
   role?: true
+  xp?: true
+  level?: true
   studentType?: true
   gradeLevel?: true
   schoolName?: true
@@ -171,6 +205,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -201,6 +247,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -212,6 +260,8 @@ export type UserGroupByOutputType = {
   firstName: string | null
   lastName: string | null
   role: $Enums.UserRole
+  xp: number
+  level: number
   studentType: string | null
   gradeLevel: string | null
   schoolName: string | null
@@ -223,6 +273,8 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -252,6 +304,8 @@ export type UserWhereInput = {
   firstName?: Prisma.StringNullableFilter<"User"> | string | null
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  xp?: Prisma.IntFilter<"User"> | number
+  level?: Prisma.IntFilter<"User"> | number
   studentType?: Prisma.StringNullableFilter<"User"> | string | null
   gradeLevel?: Prisma.StringNullableFilter<"User"> | string | null
   schoolName?: Prisma.StringNullableFilter<"User"> | string | null
@@ -262,6 +316,7 @@ export type UserWhereInput = {
   onboardingComplete?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  quizAttempts?: Prisma.QuizAttemptListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
 }
 
@@ -272,6 +327,8 @@ export type UserOrderByWithRelationInput = {
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   studentType?: Prisma.SortOrderInput | Prisma.SortOrder
   gradeLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   schoolName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -282,6 +339,7 @@ export type UserOrderByWithRelationInput = {
   onboardingComplete?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  quizAttempts?: Prisma.QuizAttemptOrderByRelationAggregateInput
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput
 }
 
@@ -295,6 +353,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   firstName?: Prisma.StringNullableFilter<"User"> | string | null
   lastName?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
+  xp?: Prisma.IntFilter<"User"> | number
+  level?: Prisma.IntFilter<"User"> | number
   studentType?: Prisma.StringNullableFilter<"User"> | string | null
   gradeLevel?: Prisma.StringNullableFilter<"User"> | string | null
   schoolName?: Prisma.StringNullableFilter<"User"> | string | null
@@ -305,6 +365,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   onboardingComplete?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  quizAttempts?: Prisma.QuizAttemptListRelationFilter
   enrollments?: Prisma.EnrollmentListRelationFilter
 }, "id" | "clerkId" | "email">
 
@@ -315,6 +376,8 @@ export type UserOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrderInput | Prisma.SortOrder
   lastName?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   studentType?: Prisma.SortOrderInput | Prisma.SortOrder
   gradeLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   schoolName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -326,8 +389,10 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -340,6 +405,8 @@ export type UserScalarWhereWithAggregatesInput = {
   firstName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   lastName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+  xp?: Prisma.IntWithAggregatesFilter<"User"> | number
+  level?: Prisma.IntWithAggregatesFilter<"User"> | number
   studentType?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   gradeLevel?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   schoolName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -359,6 +426,8 @@ export type UserCreateInput = {
   firstName?: string | null
   lastName?: string | null
   role?: $Enums.UserRole
+  xp?: number
+  level?: number
   studentType?: string | null
   gradeLevel?: string | null
   schoolName?: string | null
@@ -369,6 +438,7 @@ export type UserCreateInput = {
   onboardingComplete?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  quizAttempts?: Prisma.QuizAttemptCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
 }
 
@@ -379,6 +449,8 @@ export type UserUncheckedCreateInput = {
   firstName?: string | null
   lastName?: string | null
   role?: $Enums.UserRole
+  xp?: number
+  level?: number
   studentType?: string | null
   gradeLevel?: string | null
   schoolName?: string | null
@@ -389,6 +461,7 @@ export type UserUncheckedCreateInput = {
   onboardingComplete?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  quizAttempts?: Prisma.QuizAttemptUncheckedCreateNestedManyWithoutUserInput
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -399,6 +472,8 @@ export type UserUpdateInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -409,6 +484,7 @@ export type UserUpdateInput = {
   onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizAttempts?: Prisma.QuizAttemptUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
 }
 
@@ -419,6 +495,8 @@ export type UserUncheckedUpdateInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -429,6 +507,7 @@ export type UserUncheckedUpdateInput = {
   onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizAttempts?: Prisma.QuizAttemptUncheckedUpdateManyWithoutUserNestedInput
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -439,6 +518,8 @@ export type UserCreateManyInput = {
   firstName?: string | null
   lastName?: string | null
   role?: $Enums.UserRole
+  xp?: number
+  level?: number
   studentType?: string | null
   gradeLevel?: string | null
   schoolName?: string | null
@@ -458,6 +539,8 @@ export type UserUpdateManyMutationInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -477,6 +560,8 @@ export type UserUncheckedUpdateManyInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -504,6 +589,8 @@ export type UserCountOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   studentType?: Prisma.SortOrder
   gradeLevel?: Prisma.SortOrder
   schoolName?: Prisma.SortOrder
@@ -516,6 +603,11 @@ export type UserCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type UserAvgOrderByAggregateInput = {
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
+}
+
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   clerkId?: Prisma.SortOrder
@@ -523,6 +615,8 @@ export type UserMaxOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   studentType?: Prisma.SortOrder
   gradeLevel?: Prisma.SortOrder
   schoolName?: Prisma.SortOrder
@@ -540,6 +634,8 @@ export type UserMinOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   studentType?: Prisma.SortOrder
   gradeLevel?: Prisma.SortOrder
   schoolName?: Prisma.SortOrder
@@ -548,6 +644,11 @@ export type UserMinOrderByAggregateInput = {
   onboardingComplete?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  xp?: Prisma.SortOrder
+  level?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -573,6 +674,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumUserRoleFieldUpdateOperationsInput = {
   set?: $Enums.UserRole
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserUpdateexamGoalsInput = {
@@ -611,6 +720,20 @@ export type UserUpdateOneRequiredWithoutEnrollmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEnrollmentsInput, Prisma.UserUpdateWithoutEnrollmentsInput>, Prisma.UserUncheckedUpdateWithoutEnrollmentsInput>
 }
 
+export type UserCreateNestedOneWithoutQuizAttemptsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutQuizAttemptsInput, Prisma.UserUncheckedCreateWithoutQuizAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuizAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutQuizAttemptsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutQuizAttemptsInput, Prisma.UserUncheckedCreateWithoutQuizAttemptsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuizAttemptsInput
+  upsert?: Prisma.UserUpsertWithoutQuizAttemptsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutQuizAttemptsInput, Prisma.UserUpdateWithoutQuizAttemptsInput>, Prisma.UserUncheckedUpdateWithoutQuizAttemptsInput>
+}
+
 export type UserCreateWithoutEnrollmentsInput = {
   id?: string
   clerkId: string
@@ -618,6 +741,8 @@ export type UserCreateWithoutEnrollmentsInput = {
   firstName?: string | null
   lastName?: string | null
   role?: $Enums.UserRole
+  xp?: number
+  level?: number
   studentType?: string | null
   gradeLevel?: string | null
   schoolName?: string | null
@@ -628,6 +753,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   onboardingComplete?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  quizAttempts?: Prisma.QuizAttemptCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -637,6 +763,8 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   firstName?: string | null
   lastName?: string | null
   role?: $Enums.UserRole
+  xp?: number
+  level?: number
   studentType?: string | null
   gradeLevel?: string | null
   schoolName?: string | null
@@ -647,6 +775,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   onboardingComplete?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  quizAttempts?: Prisma.QuizAttemptUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -672,6 +801,8 @@ export type UserUpdateWithoutEnrollmentsInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -682,6 +813,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizAttempts?: Prisma.QuizAttemptUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -691,6 +823,8 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
   studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -701,6 +835,111 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quizAttempts?: Prisma.QuizAttemptUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutQuizAttemptsInput = {
+  id?: string
+  clerkId: string
+  email: string
+  firstName?: string | null
+  lastName?: string | null
+  role?: $Enums.UserRole
+  xp?: number
+  level?: number
+  studentType?: string | null
+  gradeLevel?: string | null
+  schoolName?: string | null
+  examGoals?: Prisma.UserCreateexamGoalsInput | string[]
+  learningGoals?: Prisma.UserCreatelearningGoalsInput | string[]
+  preferredStudyTime?: string | null
+  targetExamDate?: Date | string | null
+  onboardingComplete?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutQuizAttemptsInput = {
+  id?: string
+  clerkId: string
+  email: string
+  firstName?: string | null
+  lastName?: string | null
+  role?: $Enums.UserRole
+  xp?: number
+  level?: number
+  studentType?: string | null
+  gradeLevel?: string | null
+  schoolName?: string | null
+  examGoals?: Prisma.UserCreateexamGoalsInput | string[]
+  learningGoals?: Prisma.UserCreatelearningGoalsInput | string[]
+  preferredStudyTime?: string | null
+  targetExamDate?: Date | string | null
+  onboardingComplete?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutQuizAttemptsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutQuizAttemptsInput, Prisma.UserUncheckedCreateWithoutQuizAttemptsInput>
+}
+
+export type UserUpsertWithoutQuizAttemptsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutQuizAttemptsInput, Prisma.UserUncheckedUpdateWithoutQuizAttemptsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutQuizAttemptsInput, Prisma.UserUncheckedCreateWithoutQuizAttemptsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutQuizAttemptsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutQuizAttemptsInput, Prisma.UserUncheckedUpdateWithoutQuizAttemptsInput>
+}
+
+export type UserUpdateWithoutQuizAttemptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clerkId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examGoals?: Prisma.UserUpdateexamGoalsInput | string[]
+  learningGoals?: Prisma.UserUpdatelearningGoalsInput | string[]
+  preferredStudyTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetExamDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutQuizAttemptsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clerkId?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  xp?: Prisma.IntFieldUpdateOperationsInput | number
+  level?: Prisma.IntFieldUpdateOperationsInput | number
+  studentType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gradeLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  schoolName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  examGoals?: Prisma.UserUpdateexamGoalsInput | string[]
+  learningGoals?: Prisma.UserUpdatelearningGoalsInput | string[]
+  preferredStudyTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetExamDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  onboardingComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -709,10 +948,12 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
  */
 
 export type UserCountOutputType = {
+  quizAttempts: number
   enrollments: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  quizAttempts?: boolean | UserCountOutputTypeCountQuizAttemptsArgs
   enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs
 }
 
@@ -724,6 +965,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountQuizAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuizAttemptWhereInput
 }
 
 /**
@@ -741,6 +989,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   firstName?: boolean
   lastName?: boolean
   role?: boolean
+  xp?: boolean
+  level?: boolean
   studentType?: boolean
   gradeLevel?: boolean
   schoolName?: boolean
@@ -751,6 +1001,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   onboardingComplete?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  quizAttempts?: boolean | Prisma.User$quizAttemptsArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -762,6 +1013,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   role?: boolean
+  xp?: boolean
+  level?: boolean
   studentType?: boolean
   gradeLevel?: boolean
   schoolName?: boolean
@@ -781,6 +1034,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   role?: boolean
+  xp?: boolean
+  level?: boolean
   studentType?: boolean
   gradeLevel?: boolean
   schoolName?: boolean
@@ -800,6 +1055,8 @@ export type UserSelectScalar = {
   firstName?: boolean
   lastName?: boolean
   role?: boolean
+  xp?: boolean
+  level?: boolean
   studentType?: boolean
   gradeLevel?: boolean
   schoolName?: boolean
@@ -812,8 +1069,9 @@ export type UserSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clerkId" | "email" | "firstName" | "lastName" | "role" | "studentType" | "gradeLevel" | "schoolName" | "examGoals" | "learningGoals" | "preferredStudyTime" | "targetExamDate" | "onboardingComplete" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "clerkId" | "email" | "firstName" | "lastName" | "role" | "xp" | "level" | "studentType" | "gradeLevel" | "schoolName" | "examGoals" | "learningGoals" | "preferredStudyTime" | "targetExamDate" | "onboardingComplete" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  quizAttempts?: boolean | Prisma.User$quizAttemptsArgs<ExtArgs>
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -823,6 +1081,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    quizAttempts: Prisma.$QuizAttemptPayload<ExtArgs>[]
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -832,6 +1091,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     firstName: string | null
     lastName: string | null
     role: $Enums.UserRole
+    xp: number
+    level: number
     studentType: string | null
     gradeLevel: string | null
     schoolName: string | null
@@ -1236,6 +1497,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  quizAttempts<T extends Prisma.User$quizAttemptsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$quizAttemptsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizAttemptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   enrollments<T extends Prisma.User$enrollmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1272,6 +1534,8 @@ export interface UserFieldRefs {
   readonly firstName: Prisma.FieldRef<"User", 'String'>
   readonly lastName: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
+  readonly xp: Prisma.FieldRef<"User", 'Int'>
+  readonly level: Prisma.FieldRef<"User", 'Int'>
   readonly studentType: Prisma.FieldRef<"User", 'String'>
   readonly gradeLevel: Prisma.FieldRef<"User", 'String'>
   readonly schoolName: Prisma.FieldRef<"User", 'String'>
@@ -1672,6 +1936,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.quizAttempts
+ */
+export type User$quizAttemptsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QuizAttempt
+   */
+  select?: Prisma.QuizAttemptSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QuizAttempt
+   */
+  omit?: Prisma.QuizAttemptOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuizAttemptInclude<ExtArgs> | null
+  where?: Prisma.QuizAttemptWhereInput
+  orderBy?: Prisma.QuizAttemptOrderByWithRelationInput | Prisma.QuizAttemptOrderByWithRelationInput[]
+  cursor?: Prisma.QuizAttemptWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuizAttemptScalarFieldEnum | Prisma.QuizAttemptScalarFieldEnum[]
 }
 
 /**

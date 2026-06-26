@@ -77,3 +77,13 @@ export type QuizAttempt = Prisma.QuizAttemptModel
  * 
  */
 export type QuestionAttempt = Prisma.QuestionAttemptModel
+/**
+ * Model Achievement
+ * 
+ */
+export type Achievement = Prisma.AchievementModel
+/**
+ * Model UserAchievement
+ * 
+ */
+export type UserAchievement = Prisma.UserAchievementModel

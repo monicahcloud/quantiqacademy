@@ -13,27 +13,40 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  clerkId  String   @unique
-  email    String   @unique
+  id        String @id @default(cuid())
+
+  clerkId   String @unique
+  email     String @unique
+
   firstName String?
   lastName  String?
-  role      UserRole @default(STUDENT)
 
-  xp    Int @default(0)
-  level Int @default(1)
+  role       UserRole @default(STUDENT)
+
+  xp         Int @default(0)
+  level      Int @default(1)
+
+  currentStreak Int @default(0)
+  longestStreak Int @default(0)
+
+  lastLessonCompleted DateTime?
 
   studentType String?
-  gradeLevel String?
-  schoolName String?
+  gradeLevel  String?
+  schoolName  String?
+
   examGoals String[]
   learningGoals String[]
+
   preferredStudyTime String?
   targetExamDate DateTime?
+
   onboardingComplete Boolean @default(false)
-  quizAttempts QuizAttempt[]
-  
+
   enrollments Enrollment[]
+  quizAttempts QuizAttempt[]
+  achievements UserAchievement[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -152,7 +165,7 @@ model Enrollment {
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   lessonProgress LessonProgress[]
-quizAttempts QuizAttempt[]
+  quizAttempts QuizAttempt[]
   createdAt DateTime @default(now())
 
   @@unique([userId, courseId])
@@ -275,4 +288,30 @@ model QuestionAttempt {
   selectedAnswer Answer?     @relation(fields: [selectedAnswerId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
+}
+
+model Achievement {
+  id          String @id @default(cuid())
+  key         String @unique
+  title       String
+  description String?
+  icon        String?
+  xpReward    Int    @default(0)
+
+  users UserAchievement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
 }

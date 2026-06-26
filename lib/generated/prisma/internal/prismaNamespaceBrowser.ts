@@ -62,7 +62,9 @@ export const ModelName = {
   Question: 'Question',
   Answer: 'Answer',
   QuizAttempt: 'QuizAttempt',
-  QuestionAttempt: 'QuestionAttempt'
+  QuestionAttempt: 'QuestionAttempt',
+  Achievement: 'Achievement',
+  UserAchievement: 'UserAchievement'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,6 +92,9 @@ export const UserScalarFieldEnum = {
   role: 'role',
   xp: 'xp',
   level: 'level',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastLessonCompleted: 'lastLessonCompleted',
   studentType: 'studentType',
   gradeLevel: 'gradeLevel',
   schoolName: 'schoolName',
@@ -265,6 +270,30 @@ export const QuestionAttemptScalarFieldEnum = {
 } as const
 
 export type QuestionAttemptScalarFieldEnum = (typeof QuestionAttemptScalarFieldEnum)[keyof typeof QuestionAttemptScalarFieldEnum]
+
+
+export const AchievementScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  title: 'title',
+  description: 'description',
+  icon: 'icon',
+  xpReward: 'xpReward',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AchievementScalarFieldEnum = (typeof AchievementScalarFieldEnum)[keyof typeof AchievementScalarFieldEnum]
+
+
+export const UserAchievementScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  achievementId: 'achievementId',
+  earnedAt: 'earnedAt'
+} as const
+
+export type UserAchievementScalarFieldEnum = (typeof UserAchievementScalarFieldEnum)[keyof typeof UserAchievementScalarFieldEnum]
 
 
 export const SortOrder = {
